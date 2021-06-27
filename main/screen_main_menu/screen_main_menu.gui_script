@@ -1,0 +1,57 @@
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	self.start_button = gui.get_node("start_btn") -- <2>
+	self.start_button_position = gui.get_position(self.start_button)
+	self.start_button_is_over = false -- <4>
+end
+
+function final(self)
+	-- Add finalization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function update(self, dt)
+	-- Add update code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function on_message(self, message_id, message, sender)
+	-- Add message-handling code here
+	-- Learn more: https://defold.com/manuals/message-passing/
+	-- Remove this function if not needed
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash("touch") and action.pressed then
+		if gui.pick_node(self.start_button, action.x, action.y) then
+			msg.post('main:/collection_manager#main', 'SHOW_INTRODUCE')
+		end
+	end
+
+	if action_id == nil then --<5>
+		if gui.pick_node(self.start_button, action.x, action.y) then -- <6>
+			if not self.start_button_is_over then
+				self.start_button_is_over = true
+				msg.post('main:/sound_effect_manager#sound_effect_manager', 'play_sound_effect', {sound = "button_hovered"})
+				local pos = self.start_button_position
+				pos.y = pos.y + 10
+				gui.set_position(self.start_button, pos)
+			end
+		else
+			if self.start_button_is_over then
+				self.start_button_is_over = false
+				local pos = self.start_button_position
+				pos.y = pos.y - 10
+				gui.set_position(self.start_button, pos)
+			end
+		end
+	end
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Learn more: https://defold.com/manuals/hot-reload/
+	-- Remove this function if not needed
+end

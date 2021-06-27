@@ -1,0 +1,40 @@
+local monarch = require "monarch.monarch"
+
+function init(self)
+	print('MAIN MENU INITED')
+	msg.post(".", "acquire_input_focus")
+	self.isActive = true
+end
+
+function final(self)
+	-- Add finalization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function update(self, dt)
+	-- Add update code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == monarch.FOCUS.GAINED then
+		print("Focus gained, previous screen: ", message.id)
+	elseif message_id == monarch.FOCUS.LOST then
+		print("Focus lost, next screen: ", message.id)
+	end
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash('ACTION_SPACE') and action.pressed then 
+		print('ACTION_SPACE')
+		msg.post('main:/collection_manager#main', 'SHOW_INTRODUCE')
+	end
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Learn more: https://defold.com/manuals/hot-reload/
+	-- Remove this function if not needed
+end

@@ -1,0 +1,20 @@
+local monarch = require "monarch.monarch"
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	msg.post("#", "show_screen1")
+	msg.post("@render:", "use_fixed_fit_projection", { near = -1, far = 1 })
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("show_screen1") then
+		print('SHOWING MAIN MENU')
+		monarch.show("main_menu")
+	elseif message_id == hash("SHOW_INTRODUCE") then
+		print('SHOWING INTRIDUCE')
+		monarch.replace("screen_introduce")
+	elseif message_id == hash("SHOW_START_GAME") then
+		print('SHOWING SHOW_START_GAME')
+		monarch.replace("screen_game_ship")
+	end
+end
